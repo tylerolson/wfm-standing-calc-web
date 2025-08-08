@@ -1,0 +1,35 @@
+package main
+
+import wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
+
+templ index(vendors map[string]*wfmplatefficiency.Vendor) {
+	for _, v := range(vendors) {
+		@vendor(v)
+	}
+}
+
+templ vendor(vendor *wfmplatefficiency.Vendor) {
+	<div>
+		<h1>
+			{ vendor.Name }
+		</h1>
+		<table>
+			<tr>
+				<th>Item Name</th>
+				<th>Type</th>
+				<th>Standing</th>
+				<th>Volume</th>
+				<th>Average Cost</th>
+			</tr>
+			for _, item := range(vendor.Items) {
+				<tr>
+					<td>{ item.Name }</td>
+					<td>{ item.Type }</td>
+					<td>{ item.StandingCost }</td>
+					<td>{ item.AvgVol }</td>
+					<td>{ item.WeightedAvgPrice }</td>
+				</tr>
+			}
+		</table>
+	</div>
+}
