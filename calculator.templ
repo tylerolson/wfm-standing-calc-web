@@ -2,7 +2,7 @@ package main
 
 import wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
 
-templ index(vendors map[string]*wfmplatefficiency.Vendor) {
+templ index(vendors []*wfmplatefficiency.Vendor) {
 	for _, v := range(vendors) {
 		@vendor(v)
 	}
