@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/a-h/templ"
@@ -47,6 +48,11 @@ func main() {
 	index := index(scraper.GetVendors())
 	http.Handle("/", templ.Handler(index))
 
-	fmt.Println("Listening on :3000")
-	http.ListenAndServe(":3000", nil)
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8080"
+	}
+
+	fmt.Println("Listening on port ", PORT)
+	http.ListenAndServe(":"+PORT, nil)
 }
