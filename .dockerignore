@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Node / frontend
+frontend/node_modules
+frontend/dist
+frontend/.svelte-kit
+frontend/.vite
+frontend/.env
+frontend/.env.*
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Editor / OS junk
+.DS_Store
+*.swp
+*.swo
+.vscode
+.idea
+
+# Docs & misc
+*.md
+

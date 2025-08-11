@@ -1,6 +1,2 @@
-github.com/a-h/templ v0.3.924 h1:t5gZqTneXqvehpNZsgtnlOscnBboNh9aASBH2MgV/0k=
-github.com/a-h/templ v0.3.924/go.mod h1:FFAu4dI//ESmEN7PQkJ7E7QfnSEMdcnu7QrAY8Dn334=
-github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
-github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
-github.com/tylerolson/wfm-plat-efficiency v0.3.0 h1:fHTH8dWd6qV2H9DzhujJOkssofhZnXN6UjC9veOhWqA=
-github.com/tylerolson/wfm-plat-efficiency v0.3.0/go.mod h1:0LqBKgQFcgrKfg42Wg4Mx5xO9w855dqU7jR4LjDIdG8=
+github.com/tylerolson/wfm-plat-efficiency v0.3.1 h1:ImHmW/52olIOTDcKyquvfnz71VOt7xs/goWfM47C2mE=
+github.com/tylerolson/wfm-plat-efficiency v0.3.1/go.mod h1:0LqBKgQFcgrKfg42Wg4Mx5xO9w855dqU7jR4LjDIdG8=
