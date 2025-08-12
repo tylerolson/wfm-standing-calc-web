@@ -1,7 +1,7 @@
-enum ItemType {
-  ItemTypeMod,
-  ItemTypeArchPart,
-  ItemTypeWeapon,
+export enum ItemType {
+  Mod,
+  ArchPart,
+  Weapon,
 }
 
 export interface Vendor {
