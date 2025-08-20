@@ -8,7 +8,7 @@
 <div class="overflow-x-auto shadow-md rounded-xl bg-gray-800 mt-4">
   <table class="w-full text-sm text-left rtl:text-right text-gray-400">
     <caption
-      class="pl-4 pt-4 pb-2 text-lg font-semibold text-left rtl:text-right text-white bg-gray-700"
+      class="pl-4 pt-4 pb-2 text-lg font-semibold text-left rtl:text-right text-gray-100 bg-gray-700"
     >
       {vendor.name}
     </caption>
@@ -23,7 +23,7 @@
     </thead>
     <tbody>
       {#each vendor.items as item}
-        <tr class=" border-b bg-gray-800 border-gray-700">
+        <tr class=" border-b bg-gray-800 border-gray-700 hover:bg-gray-700 transition-all">
           <td class="pl-4 py-4 font-medium text-gray-100 whitespace-nowrap">{item.name}</td>
           <td class="pl-4 py-4">{ItemType[item.type]}</td>
           <td class="pl-4 py-4">{item.standing}</td>

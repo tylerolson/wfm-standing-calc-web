@@ -27,7 +27,7 @@
       <p class="text-3xl">{loadStatus}</p>
     </div>
   {/if}
-  <div class="flex flex-wrap justify-evenly content-evenly m-4">
+  <div class="flex flex-wrap justify-evenly content-evenly">
     {#each vendors as vendor: Vendor (vendor.name)}
       <VendorTable {vendor}></VendorTable>
     {/each}
