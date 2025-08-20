@@ -4,8 +4,9 @@
   import type { Vendor } from "./types.ts";
 
   let loadStatus = $state("Loading...");
-
   let vendors = $state<Vendor[]>([]);
+
+  let filterText = $state("");
 
   onMount(async () => {
     const response = await fetch("/api/vendors");
@@ -27,9 +28,18 @@
       <p class="text-3xl">{loadStatus}</p>
     </div>
   {/if}
-  <div class="flex flex-wrap justify-evenly content-evenly">
-    {#each vendors as vendor: Vendor (vendor.name)}
-      <VendorTable {vendor}></VendorTable>
-    {/each}
+  <div class="m-6">
+    <!-- svelte-ignore a11y_autofocus -->
+    <input
+      placeholder="Search"
+      class="rounded-md shadow-xl w-full py-3 px-6 bg-gray-700 focus:outline-gray-400"
+      autofocus
+      bind:value={filterText}
+    />
+    <div class="flex flex-wrap justify-between content-evenly">
+      {#each vendors as vendor: Vendor (vendor.name)}
+        <VendorTable {vendor} {filterText}></VendorTable>
+      {/each}
+    </div>
   </div>
 </main>
