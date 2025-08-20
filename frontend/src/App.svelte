@@ -36,7 +36,7 @@
       autofocus
       bind:value={filterText}
     />
-    <div class="flex flex-wrap justify-between content-evenly">
+    <div class="flex flex-wrap justify-around content-evenly">
       {#each vendors as vendor: Vendor (vendor.name)}
         <VendorTable {vendor} {filterText}></VendorTable>
       {/each}
