@@ -34,7 +34,7 @@
     </thead>
     <tbody bind:this={tBody}>
       {#each vendor.items as item}
-        {#if item.name.includes(filterText) || filterText == ""}
+        {#if item.name.toLowerCase().includes(filterText.toLowerCase()) || filterText == ""}
           <tr class=" border-b bg-gray-800 border-gray-700 hover:bg-gray-700 transition-all">
             <td class="pl-4 py-4 font-medium text-gray-100 whitespace-nowrap">{item.name}</td>
             <td class="pl-4 py-4">{ItemType[item.type]}</td>
