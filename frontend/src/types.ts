@@ -1,3 +1,9 @@
+export interface VendorsRespone {
+  updatedAt: Date;
+  updating: boolean;
+  vendors: Vendor[];
+}
+
 export enum ItemType {
   Mod,
   ArchPart,

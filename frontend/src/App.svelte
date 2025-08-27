@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import VendorTable from "./lib/VendorTable.svelte";
-  import type { Vendor } from "./types.ts";
+  import type { Vendor, VendorsRespone } from "./types.ts";
 
   let loadStatus = $state("Loading...");
   let vendors = $state<Vendor[]>([]);
+  let updatedAt = $state<Date>();
+  let updating = $state(false);
 
   let filterText = $state("");
 
@@ -16,30 +18,39 @@
       return;
     }
 
-    const data: Vendor[] = await response.json();
+    const data: VendorsRespone = await response.json();
 
-    vendors = data;
+    vendors = data.vendors;
+    updatedAt = new Date(data.updatedAt);
+    updating = data.updating;
   });
 </script>
 
 <main>
   {#if vendors.length == 0}
-    <div>
-      <p class="text-3xl">{loadStatus}</p>
+    <div class="m-6">
+      <p class="text-gray-100 text-3xl">{loadStatus}</p>
+    </div>
+  {:else}
+    <div class="m-6">
+      {#if updating}
+        <p class="pb-3 text-gray-100">Updating...</p>
+      {:else}
+        <p class="text-gray-100 pb-3">Updated at: {updatedAt?.toLocaleString()}</p>
+      {/if}
+
+      <!-- svelte-ignore a11y_autofocus -->
+      <input
+        placeholder="Search"
+        class="rounded-md shadow-xl w-full py-3 px-6 bg-gray-700 focus:outline-gray-400"
+        autofocus
+        bind:value={filterText}
+      />
+      <div class="flex flex-wrap justify-around content-evenly">
+        {#each vendors as vendor: Vendor (vendor.name)}
+          <VendorTable {vendor} {filterText}></VendorTable>
+        {/each}
+      </div>
     </div>
   {/if}
-  <div class="m-6">
-    <!-- svelte-ignore a11y_autofocus -->
-    <input
-      placeholder="Search"
-      class="rounded-md shadow-xl w-full py-3 px-6 bg-gray-700 focus:outline-gray-400"
-      autofocus
-      bind:value={filterText}
-    />
-    <div class="flex flex-wrap justify-around content-evenly">
-      {#each vendors as vendor: Vendor (vendor.name)}
-        <VendorTable {vendor} {filterText}></VendorTable>
-      {/each}
-    </div>
-  </div>
 </main>
