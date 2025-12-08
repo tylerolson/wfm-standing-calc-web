@@ -13,31 +13,40 @@ import (
 	wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
 )
 
-//go:embed frontend/dist/*
+//go:embed frontend/build/*
 var dist embed.FS
 
 type Server struct {
-	scraper   *wfmplatefficiency.Scraper
-	updatedAt time.Time
-	updating  bool
+	calculator *wfmplatefficiency.Calculator
+	updatedAt  time.Time
+	updating   bool
 }
 
-type VendorsRespone struct {
-	UpdatedAt time.Time                   `json:"updatedAt"`
-	Updating  bool                        `json:"updating"`
-	Vendors   []*wfmplatefficiency.Vendor `json:"vendors"`
+type BasicVendor struct {
+	Slug           string                 `json:"slug"`
+	Name           string                 `json:"name"`
+	MostProfitable wfmplatefficiency.Item `json:"mostProfitable"`
+	MostVolume     wfmplatefficiency.Item `json:"mostVolume"`
+	MostEfficient  wfmplatefficiency.Item `json:"mostEfficient"`
+}
+
+// a basic overview of the vendors
+type BasicVendorsResponse struct {
+	UpdatedAt time.Time     `json:"updatedAt"`
+	Updating  bool          `json:"updating"`
+	Vendors   []BasicVendor `json:"vendors"`
 }
 
 func (s *Server) updateAllVendors() {
 	s.updating = true
 	fmt.Println("Starting all vendors at: ", time.Now())
-	for _, vendor := range s.scraper.GetVendors() {
-		resultChan, err := s.scraper.UpdateVendorStats(vendor.Name)
+	for _, vendor := range s.calculator.GetVendors() {
+		resultChan, err := s.calculator.UpdateVendorStats(vendor.Slug)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		fmt.Printf("Starting %v\n", vendor.Name)
+		fmt.Printf("Starting %v\n", vendor.Slug)
 		for value := range resultChan { // Loop until the channel is closed
 			if value.Err != nil {
 				fmt.Printf("Failed to fetch %s: %v\n", value.ItemName, value.Err)
@@ -51,38 +60,62 @@ func (s *Server) updateAllVendors() {
 	fmt.Println("Done at", time.Now())
 }
 
-func (s *Server) getVendors() http.HandlerFunc {
+func (s *Server) getVendorsOverview() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		// maybe send date by unix?
-		vendorRespone := VendorsRespone{
-			s.updatedAt,
-			s.updating,
-			s.scraper.GetVendors(),
+		basicVendors := make([]BasicVendor, 0)
+
+		for _, vendor := range s.calculator.GetVendors() {
+			basicVendors = append(basicVendors, BasicVendor{
+				Slug:           vendor.Slug,
+				Name:           vendor.Name,
+				MostProfitable: *vendor.MostProfit(),
+				MostVolume:     *vendor.MostVolume(),
+				MostEfficient:  *vendor.MostEfficient(),
+			})
 		}
 
-		json.NewEncoder(w).Encode(vendorRespone)
+		// maybe send date by unix?
+		vendorResponse := BasicVendorsResponse{
+			s.updatedAt,
+			s.updating,
+			basicVendors,
+		}
+
+		err := json.NewEncoder(w).Encode(vendorResponse)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
-// func (s *Server) getVendor() http.HandlerFunc {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 		name := r.PathValue("name")
-// 		vendor, err := s.scraper.GetVendor(name)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 			return
-// 		}
-//
-// 		w.Header().Set("Content-Type", "application/json")
-// 		json.NewEncoder(w).Encode(vendor)
-// 	}
-// }
+func (s *Server) getVendor() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		name := r.PathValue("name")
+		vendor, err := s.calculator.GetVendor(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		err = json.NewEncoder(w).Encode(vendor)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
 
 func main() {
 	scraper := wfmplatefficiency.NewScraper()
-	scraper.LoadVendors()
+	err := scraper.LoadVendors()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 
 	ticker := time.NewTicker(5 * time.Hour)
 	defer ticker.Stop()
@@ -101,9 +134,10 @@ func main() {
 		}
 	}()
 
-	http.HandleFunc("GET /api/vendors", server.getVendors())
+	http.HandleFunc("GET /api/vendors", server.getVendorsOverview())
+	http.HandleFunc("GET /api/vendors/{name}", server.getVendor())
 
-	distFS, err := fs.Sub(dist, "frontend/dist")
+	distFS, err := fs.Sub(dist, "frontend/build")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,5 +150,9 @@ func main() {
 	}
 
 	fmt.Println("Listening on port ", PORT)
-	http.ListenAndServe(":"+PORT, nil)
+	err = http.ListenAndServe(":"+PORT, nil)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 }
