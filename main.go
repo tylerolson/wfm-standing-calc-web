@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
@@ -160,7 +161,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.Handle("/", http.FileServer(http.FS(distFS)))
+	//http.Handle("/", http.FileServer(http.FS(distFS)))
+
+	hfs := http.FileServer(http.FS(distFS))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			r.URL.Path = strings.TrimPrefix(r.URL.Path, "/")
+
+			//check if file exists, if it doesn't server index for SPA routing
+			_, err := fs.Stat(distFS, r.URL.Path)
+			if err != nil {
+				http.ServeFileFS(w, r, distFS, "index.html")
+				return
+			}
+		}
+		hfs.ServeHTTP(w, r)
+	})
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
