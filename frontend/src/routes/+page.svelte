@@ -24,6 +24,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>WFM Calculator</title>
+</svelte:head>
+
 {#if vendors.length === 0}
   <div class="m-6">
     <p class="text-3xl text-gray-100">{loadStatus}</p>

@@ -31,6 +31,14 @@
   });
 </script>
 
+<svelte:head>
+  {#if vendor === undefined}
+    <title>WFM Calculator</title>
+  {:else}
+    <title>{vendor.name}</title>
+  {/if}
+</svelte:head>
+
 {#if vendor === undefined}
   <div class="m-6">
     <p class="text-3xl text-gray-100">{loadStatus}</p>
