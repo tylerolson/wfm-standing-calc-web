@@ -1,6 +1,6 @@
 <script lang="ts">
   import { type BasicVendor, type BasicVendorsResponse } from "$lib/types";
-  import VendorBasic from "$lib/VendorBasic.svelte";
+  import BasicVendorPanel from "$lib/BasicVendorPanel.svelte";
   import { onMount } from "svelte";
 
   let loadStatus = $state("Loading...");
@@ -42,7 +42,9 @@
       class="mx-auto grid w-full max-w-[1500px] auto-cols-fr grid-cols-1 gap-8 p-4 sm:grid-cols-2 xl:grid-cols-3"
     >
       {#each vendors as vendor (vendor.slug)}
-        <VendorBasic {vendor}></VendorBasic>
+        <a href={`/vendors/${vendor.slug}`}>
+          <BasicVendorPanel {vendor}></BasicVendorPanel>
+        </a>
       {/each}
     </div>
   </div>

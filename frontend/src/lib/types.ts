@@ -1,7 +1,15 @@
-export interface VendorsResponse {
+export type VendorSlug =
+  | "arbiters_of_hexis"
+  | "cephalon_suda"
+  | "new_loka"
+  | "red_veil"
+  | "steel_meridian"
+  | "the_perrin_sequence";
+
+export interface VendorResponse {
   updatedAt: Date;
   updating: boolean;
-  vendors: Vendor[];
+  vendor: Vendor;
 }
 
 export interface BasicVendorsResponse {
@@ -11,7 +19,7 @@ export interface BasicVendorsResponse {
 }
 
 export interface BasicVendor {
-  slug: string;
+  slug: VendorSlug;
   name: string;
   mostProfitable: Item;
   mostVolume: Item;
@@ -25,7 +33,7 @@ export enum ItemType {
 }
 
 export interface Vendor {
-  slug: string;
+  slug: VendorSlug;
   name: string;
   items: Item[];
 }

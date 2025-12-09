@@ -37,6 +37,12 @@ type BasicVendorsResponse struct {
 	Vendors   []BasicVendor `json:"vendors"`
 }
 
+type VendorsResponse struct {
+	UpdatedAt time.Time                `json:"updatedAt"`
+	Updating  bool                     `json:"updating"`
+	Vendor    wfmplatefficiency.Vendor `json:"vendor"`
+}
+
 func (s *Server) updateAllVendors() {
 	s.updating = true
 	fmt.Println("Starting all vendors at: ", time.Now())
@@ -62,17 +68,22 @@ func (s *Server) updateAllVendors() {
 
 func (s *Server) getVendorsOverview() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-
 		basicVendors := make([]BasicVendor, 0)
 
+		// TODO FIX
+		// most efficient is nil here when every vendors isnt fetched already
 		for _, vendor := range s.calculator.GetVendors() {
+			// return most profitable if there is a nil value, will fix later
+			mostEfficient := vendor.MostProfit()
+			if vendor.MostEfficient() != nil {
+				mostEfficient = vendor.MostEfficient()
+			}
 			basicVendors = append(basicVendors, BasicVendor{
 				Slug:           vendor.Slug,
 				Name:           vendor.Name,
 				MostProfitable: *vendor.MostProfit(),
 				MostVolume:     *vendor.MostVolume(),
-				MostEfficient:  *vendor.MostEfficient(),
+				MostEfficient:  *mostEfficient,
 			})
 		}
 
@@ -83,6 +94,7 @@ func (s *Server) getVendorsOverview() http.HandlerFunc {
 			basicVendors,
 		}
 
+		w.Header().Set("Content-Type", "application/json")
 		err := json.NewEncoder(w).Encode(vendorResponse)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -96,12 +108,18 @@ func (s *Server) getVendor() http.HandlerFunc {
 		name := r.PathValue("name")
 		vendor, err := s.calculator.GetVendor(name)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}
 
+		vendorResponse := VendorsResponse{
+			UpdatedAt: s.updatedAt,
+			Updating:  s.updating,
+			Vendor:    *vendor,
+		}
+
 		w.Header().Set("Content-Type", "application/json")
-		err = json.NewEncoder(w).Encode(vendor)
+		err = json.NewEncoder(w).Encode(vendorResponse)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

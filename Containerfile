@@ -1,5 +1,5 @@
 # Frontend
-FROM node:22.15.0-alpine3.21 AS frontend-builder
+FROM node:22.21-alpine AS frontend-builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -7,7 +7,7 @@ RUN corepack enable
 WORKDIR /app
 
 # Cache dependencies
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
+COPY frontend/pnpm-lock.yaml frontend/package.json frontend/pnpm-workspace.yaml* frontend/.npmrc* ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # Copy rest of frontend
@@ -22,7 +22,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
-COPY --from=frontend-builder /app/dist ./frontend/dist
+COPY --from=frontend-builder /app/build ./frontend/build
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server
 

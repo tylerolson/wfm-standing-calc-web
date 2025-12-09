@@ -10,7 +10,9 @@
 </svelte:head>
 
 <nav class="flex h-16 items-center justify-center bg-[#1F2937] text-3xl text-white">
-  <p>Warframe Platinum Efficiency Calculator</p>
+  <a href="/">
+    <p>Warframe Platinum Efficiency Calculator</p>
+  </a>
 </nav>
 
 {@render children()}

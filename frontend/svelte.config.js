@@ -14,11 +14,6 @@ const config = {
       precompress: false,
       strict: true,
     }),
-    prerender: {
-      // You can specify which pages to prerender
-      // entries: ['*', '/blog/[slug]'],
-      entries: ["*"], // Prerender all pages by default
-    },
   },
 };
 

@@ -10,3 +10,23 @@
 body {
   background: #111827;
 }
+
+.arbiters_of_hexis {
+    @apply border-b-2 border-[#CFE1E3] bg-[#2F3335] text-[#CFE1E3];
+}
+.cephalon_suda {
+    @apply border-b-2 border-[#F8FDAC] bg-[#312C4A] text-[#F8FDAC];
+}
+.new_loka {
+    @apply border-b-2 border-[#C1FFBD] bg-[#223025] text-[#C1FFBD];
+}
+.red_veil {
+    @apply border-b-2 border-[#FD8A87] bg-[#31132E] text-[#FD8A87];
+}
+.steel_meridian {
+    @apply border-b-2 border-[#F8B283] bg-[#233238] text-[#F8B283];
+}
+
+.the_perrin_sequence {
+    @apply border-b-2 border-[#91DBFF] bg-[#313A4F] text-[#91DBFF];
+}
