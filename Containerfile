@@ -15,7 +15,7 @@ COPY frontend ./
 RUN pnpm run build
 
 # Backend
-FROM golang:1.24-alpine3.21 AS backend-builder
+FROM golang:1.25-alpine AS backend-builder
 WORKDIR /app
 
 COPY go.mod go.sum ./
@@ -25,7 +25,6 @@ COPY . ./
 COPY --from=frontend-builder /app/build ./frontend/build
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server
-
 
 FROM gcr.io/distroless/static-debian12:latest
 WORKDIR /app
