@@ -151,7 +151,11 @@
     <tbody>
       {#each sortedItems() as item}
         <tr class="border-b border-gray-700 bg-gray-800 transition-all hover:bg-gray-700">
-          <td class="py-4 pl-4 font-medium whitespace-nowrap text-gray-100">{item.name}</td>
+          <td class="py-4 pl-4 font-medium whitespace-nowrap text-gray-100">
+            <a href={`https://warframe.market/items/${item.name}?type=sell`}>
+              {item.name}
+            </a>
+          </td>
           <td class="py-4 pl-4">{ItemType[item.type]}</td>
           <td class="py-4 pl-4">{item.standing}</td>
           <td class="py-4 pl-4">{item.volume.toFixed(2)}</td>

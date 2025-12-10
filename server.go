@@ -21,18 +21,20 @@ type Server struct {
 	calculator *wfmplatefficiency.Calculator
 	updatedAt  time.Time
 	updating   bool
+	version    string
 }
 
-func NewServer(calculator *wfmplatefficiency.Calculator) *Server {
+func NewServer(calculator *wfmplatefficiency.Calculator, version string) *Server {
 	server := &Server{
 		serveMux:   http.NewServeMux(),
 		calculator: calculator,
 		updatedAt:  time.Time{},
 		updating:   true,
+		version:    version,
 	}
 
 	// API routes
-	server.humaAPI = humago.New(server.serveMux, huma.DefaultConfig("WFM Calculator", "v0.3.4"))
+	server.humaAPI = humago.New(server.serveMux, huma.DefaultConfig("WFM Calculator", version))
 	huma.Get(server.humaAPI, "/api/vendors", server.getVendorsOverview)
 	huma.Get(server.humaAPI, "/api/vendors/{slog}", server.getVendor)
 

@@ -18,13 +18,15 @@ RUN pnpm run build
 FROM golang:1.25-alpine AS backend-builder
 WORKDIR /app
 
+ARG VERSION=dev
+
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
 COPY --from=frontend-builder /app/build ./frontend/build
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w -X main.Version=${VERSION}" -o server
 
 FROM gcr.io/distroless/static-debian12:latest
 WORKDIR /app

@@ -18,7 +18,10 @@ import (
 //go:embed frontend/build/*
 var dist embed.FS
 
+var Version = "dev"
+
 func main() {
+	log.Printf("WFM PlatEfficiency [%s]", Version)
 	calculator := wfmplatefficiency.NewScraper()
 	if err := calculator.LoadVendors(); err != nil {
 		log.Fatalf("Failed to load vendors: %v", err)
@@ -29,7 +32,7 @@ func main() {
 		port = "8080"
 	}
 
-	server := NewServer(calculator)
+	server := NewServer(calculator, Version)
 	s := http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
 		Handler: server,

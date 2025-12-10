@@ -10,20 +10,28 @@
     {vendor.name}
   </div>
   <div class="p-6">
-    <p class="text-xl">Best Profit: {vendor.mostProfitable.name}</p>
-    <p class="mb-2 text-xl text-[#9CA3AF]">
-      {vendor.mostProfitable.price.toFixed(2)} platinum {vendor.mostProfitable.volume.toFixed(2)} volume
-    </p>
+    <a href={`https://warframe.market/items/${vendor.mostProfitable.name}?type=sell`}>
+      <p class="text-xl">
+        Best Profit: {vendor.mostProfitable.name}
+      </p>
+      <p class="mb-2 text-xl text-[#9CA3AF]">
+        {vendor.mostProfitable.price.toFixed(2)} platinum {vendor.mostProfitable.volume.toFixed(2)} volume
+      </p>
+    </a>
 
-    <p class="text-xl">Most Volume: {vendor.mostVolume.name}</p>
-    <p class="mb-2 text-xl text-[#9CA3AF]">
-      {vendor.mostVolume.price.toFixed(2)} platinum {vendor.mostVolume.volume.toFixed(2)} volume
-    </p>
+    <a href={`https://warframe.market/items/${vendor.mostVolume.name}?type=sell`}>
+      <p class="text-xl">Most Volume: {vendor.mostVolume.name}</p>
+      <p class="mb-2 text-xl text-[#9CA3AF]">
+        {vendor.mostVolume.price.toFixed(2)} platinum {vendor.mostVolume.volume.toFixed(2)} volume
+      </p>
+    </a>
 
-    <p class="text-xl">Most Efficient: {vendor.mostEfficient.name}</p>
-    <p class="mb-2 text-xl text-[#9CA3AF]">
-      {vendor.mostEfficient.price.toFixed(2)} platinum {vendor.mostEfficient.volume.toFixed(2)} volume
-    </p>
+    <a href={`https://warframe.market/items/${vendor.mostEfficient.name}?type=sell`}>
+      <p class="text-xl">Most Efficient: {vendor.mostEfficient.name}</p>
+      <p class="mb-2 text-xl text-[#9CA3AF]">
+        {vendor.mostEfficient.price.toFixed(2)} platinum {vendor.mostEfficient.volume.toFixed(2)} volume
+      </p>
+    </a>
   </div>
 </div>
 
