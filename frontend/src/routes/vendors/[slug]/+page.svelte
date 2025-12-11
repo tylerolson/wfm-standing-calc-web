@@ -41,15 +41,15 @@
 
 {#if vendor === undefined}
   <div class="m-6">
-    <p class="text-3xl text-gray-100">{loadStatus}</p>
+    <p class="text-3xl text-gray-400">{loadStatus}</p>
   </div>
 {:else}
   <div class="mt-1">
     <div class="flex justify-center">
       {#if updating}
-        <p class="pb-3 text-gray-100">Updating...</p>
+        <p class="pb-3 text-gray-400">Updating...</p>
       {:else}
-        <p class="pb-3 text-gray-100">Updated at: {updatedAt?.toLocaleString()}</p>
+        <p class="pb-3 text-gray-400">Updated at: {updatedAt?.toLocaleString()}</p>
       {/if}
     </div>
 
@@ -57,7 +57,7 @@
       <!-- svelte-ignore a11y_autofocus -->
       <input
         placeholder="Search"
-        class=" rounded-md bg-gray-700 px-6 py-3 text-gray-100 shadow-xl focus:outline-gray-400"
+        class=" rounded-lg bg-gray-700 px-6 py-3 text-gray-100 shadow-xl focus:outline-gray-400"
         autofocus
         bind:value={filterText}
       />

@@ -30,15 +30,15 @@
 
 {#if vendors.length === 0}
   <div class="m-6">
-    <p class="text-3xl text-gray-100">{loadStatus}</p>
+    <p class="text-3xl text-gray-400">{loadStatus}</p>
   </div>
 {:else}
   <div class="mt-1">
     <div class="flex justify-center">
       {#if updating}
-        <p class="pb-3 text-gray-100">Updating...</p>
+        <p class="pb-3 text-gray-400">Updating...</p>
       {:else}
-        <p class="pb-3 text-gray-100">Updated at: {updatedAt?.toLocaleString()}</p>
+        <p class="pb-3 text-gray-400">Updated at: {updatedAt?.toLocaleString()}</p>
       {/if}
     </div>
 
