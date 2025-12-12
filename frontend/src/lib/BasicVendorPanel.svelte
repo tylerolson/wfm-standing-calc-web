@@ -10,7 +10,11 @@
     {vendor.name}
   </div>
   <div class="p-6">
-    <a href={`https://warframe.market/items/${vendor.mostProfitable.name}?type=sell`}>
+    <a
+      href={`https://warframe.market/items/${vendor.mostProfitable.name}?type=sell`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <p class="text-xl">
         Best Profit: {vendor.mostProfitable.name}
       </p>
@@ -19,14 +23,22 @@
       </p>
     </a>
 
-    <a href={`https://warframe.market/items/${vendor.mostVolume.name}?type=sell`}>
+    <a
+      href={`https://warframe.market/items/${vendor.mostVolume.name}?type=sell`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <p class="text-xl">Most Volume: {vendor.mostVolume.name}</p>
       <p class="mb-2 text-xl text-[#9CA3AF]">
         {vendor.mostVolume.price.toFixed(2)} platinum {vendor.mostVolume.volume.toFixed(2)} volume
       </p>
     </a>
 
-    <a href={`https://warframe.market/items/${vendor.mostEfficient.name}?type=sell`}>
+    <a
+      href={`https://warframe.market/items/${vendor.mostEfficient.name}?type=sell`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <p class="text-xl">Most Efficient: {vendor.mostEfficient.name}</p>
       <p class="mb-2 text-xl text-[#9CA3AF]">
         {vendor.mostEfficient.price.toFixed(2)} platinum {vendor.mostEfficient.volume.toFixed(2)} volume

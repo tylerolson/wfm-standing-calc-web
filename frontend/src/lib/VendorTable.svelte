@@ -152,7 +152,11 @@
       {#each sortedItems() as item}
         <tr class="border-b border-gray-700 bg-gray-800 transition-all hover:bg-gray-700">
           <td class="py-4 pl-4 font-medium whitespace-nowrap text-gray-100">
-            <a href={`https://warframe.market/items/${item.name}?type=sell`}>
+            <a
+              href={`https://warframe.market/items/${item.name}?type=sell`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {item.name}
             </a>
           </td>
