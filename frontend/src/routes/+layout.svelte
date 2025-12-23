@@ -17,9 +17,6 @@
     <a href="/">
       <button type="button" class="button">HOME</button>
     </a>
-    <a href="/about">
-      <button type="button" class="button">ABOUT</button>
-    </a>
     <a href="/docs">
       <button type="button" class="button">API</button>
     </a>

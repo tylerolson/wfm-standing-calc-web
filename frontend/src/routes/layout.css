@@ -7,10 +7,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 body {
   background: #111827;
-  @apply text-gray-100
+  @apply text-gray-100;
 }
 
 .arbiters_of_hexis {

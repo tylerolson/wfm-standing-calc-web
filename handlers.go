@@ -2,9 +2,6 @@ package main
 
 import (
 	"context"
-	"io/fs"
-	"net/http"
-	"strings"
 	"time"
 
 	wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
@@ -80,22 +77,4 @@ func (s *Server) getVendor(_ context.Context, input *GetVendorRequest) (*Vendors
 	vendorResponse.Body.Vendor = *vendor
 
 	return vendorResponse, nil
-}
-
-func spaHandler(distFS fs.FS) http.HandlerFunc {
-	hfs := http.FileServer(http.FS(distFS))
-
-	return func(w http.ResponseWriter, r *http.Request) {
-		path := strings.TrimPrefix(r.URL.Path, "/")
-
-		if path != "" {
-			if _, err := fs.Stat(distFS, path); err != nil {
-				//check if file exists, if it doesn't serve index for SPA routing
-				http.ServeFileFS(w, r, distFS, "index.html")
-				return
-			}
-		}
-
-		hfs.ServeHTTP(w, r)
-	}
 }

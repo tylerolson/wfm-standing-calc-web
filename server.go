@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/fs"
 	"log"
 	"net/http"
 	"sync"
@@ -34,16 +33,11 @@ func NewServer(calculator *wfmplatefficiency.Calculator, version string) *Server
 	}
 
 	// API routes
-	server.humaAPI = humago.New(server.serveMux, huma.DefaultConfig("WFM Calculator", version))
+	config := huma.DefaultConfig("WFM Calculator", version)
+	config.OpenAPIPath = "/docs/openapi"
+	server.humaAPI = humago.New(server.serveMux, config)
 	huma.Get(server.humaAPI, "/api/vendors", server.getVendorsOverview)
 	huma.Get(server.humaAPI, "/api/vendors/{slog}", server.getVendor)
-
-	// SPA route
-	distFS, err := fs.Sub(dist, "frontend/build")
-	if err != nil {
-		log.Fatalf("Failed to load frontend: %v", err)
-	}
-	server.serveMux.HandleFunc("/", spaHandler(distFS))
 
 	return server
 }

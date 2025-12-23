@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -14,9 +13,6 @@ import (
 
 	wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
 )
-
-//go:embed frontend/build/*
-var dist embed.FS
 
 var Version = "dev"
 
