@@ -1,55 +1,28 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { page } from "$app/state";
   import VendorTable from "$lib/VendorTable.svelte";
-  import type { Vendor, VendorResponse } from "$lib/types";
-
-  let loadStatus = $state("Loading...");
-  let vendor = $state<Vendor>();
-  let updatedAt = $state<Date>();
-  let updating = $state(false);
-
+  let { data } = $props();
   let filterText = $state("");
-  onMount(async () => {
-    const response = await fetch(`/api/vendors/${page.params.slug}`);
-
-    if (!response.ok) {
-      if (response.status == 404) {
-        loadStatus = `Vendor "${page.params.slug}" not found`;
-      } else {
-        loadStatus = `HTTP error ${response.status} (${response.statusText}) The backend server may be down, try again later.`;
-      }
-      return;
-    }
-
-    const data: VendorResponse = await response.json();
-
-    console.log(data);
-    vendor = data.vendor;
-    updatedAt = new Date(data.updatedAt);
-    updating = data.updating;
-  });
 </script>
 
 <svelte:head>
-  {#if vendor === undefined}
+  {#if data.vendor === undefined}
     <title>WFM Calculator</title>
   {:else}
-    <title>{vendor.name}</title>
+    <title>{data.vendor.name}</title>
   {/if}
 </svelte:head>
 
-{#if vendor === undefined}
+{#if data.error !== null}
   <div class="m-6">
-    <p class="text-3xl text-gray-400">{loadStatus}</p>
+    <p class="text-3xl text-gray-400">{data.error}</p>
   </div>
 {:else}
   <div class="mt-1">
     <div class="flex justify-center">
-      {#if updating}
+      {#if data.updating}
         <p class="pb-3 text-gray-400">Updating...</p>
       {:else}
-        <p class="pb-3 text-gray-400">Updated at: {updatedAt?.toLocaleString()}</p>
+        <p class="pb-3 text-gray-400">Updated at: {data.updatedAt?.toLocaleString()}</p>
       {/if}
     </div>
 
@@ -61,7 +34,7 @@
         autofocus
         bind:value={filterText}
       />
-      <VendorTable {vendor} {filterText}></VendorTable>
+      <VendorTable vendor={data.vendor} {filterText}></VendorTable>
     </div>
   </div>
 {/if}

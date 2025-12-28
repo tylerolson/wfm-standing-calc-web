@@ -5,10 +5,12 @@
 </script>
 
 <div class="h-full rounded-lg bg-[#1F2937] text-[#F9FAFB] shadow-lg">
-  <div class={`flex items-center rounded-t-lg py-4 pl-4 text-3xl ${vendor.slug}`}>
-    <VendorIcon {vendor}></VendorIcon>
-    {vendor.name}
-  </div>
+  <a href={`/vendors/${vendor.slug}`}>
+    <div class={`flex items-center rounded-t-lg py-4 pl-4 text-3xl ${vendor.slug}`}>
+      <VendorIcon {vendor}></VendorIcon>
+      {vendor.name}
+    </div>
+  </a>
   <div class="p-6">
     <a
       href={`https://warframe.market/items/${vendor.mostProfitable.name}?type=sell`}
@@ -46,6 +48,3 @@
     </a>
   </div>
 </div>
-
-<style>
-</style>
