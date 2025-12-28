@@ -4,7 +4,12 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit()],
+
   server: {
     host: "0.0.0.0",
+    proxy: {
+      "/api": "http://localhost:8080",
+      "/docs": "http://localhost:8080",
+    },
   },
 });
