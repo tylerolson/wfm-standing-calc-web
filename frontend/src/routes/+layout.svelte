@@ -17,7 +17,7 @@
     <a href="/">
       <button type="button" class="button">HOME</button>
     </a>
-    <a href="/docs">
+    <a href="/api/docs">
       <button type="button" class="button">API</button>
     </a>
   </div>

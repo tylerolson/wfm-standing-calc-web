@@ -34,7 +34,9 @@ func NewServer(calculator *wfmplatefficiency.Calculator, version string) *Server
 
 	// API routes
 	config := huma.DefaultConfig("WFM Calculator", version)
-	config.OpenAPIPath = "/docs/openapi"
+	config.DocsPath = "/api/docs"
+	config.OpenAPIPath = "/api/openapi"
+	config.SchemasPath = "/api/schemas"
 	server.humaAPI = humago.New(server.serveMux, config)
 	huma.Get(server.humaAPI, "/api/vendors", server.getVendorsOverview)
 	huma.Get(server.humaAPI, "/api/vendors/{slog}", server.getVendor)
