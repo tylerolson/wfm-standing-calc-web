@@ -39,9 +39,11 @@ export interface Vendor {
 }
 
 export interface Item {
+  slug: string;
   name: string;
   type: ItemType;
   standing: number;
   volume: number;
   price: number;
+  score: number;
 }

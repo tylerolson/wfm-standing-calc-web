@@ -6,7 +6,7 @@
   import VendorIcon from "$lib/VendorIcon.svelte";
 
   let { vendor, filterText }: { vendor: Vendor; filterText: string } = $props();
-  type SortKey = "name" | "type" | "standing" | "volume" | "price";
+  type SortKey = "name" | "type" | "standing" | "volume" | "price" | "score";
   type SortDirection = "asc" | "desc" | null;
 
   let sortKey = $state<SortKey | null>((page.url.searchParams.get("sortKey") as SortKey) || null);
@@ -31,15 +31,15 @@
   function handleSort(key: SortKey) {
     if (sortKey === key) {
       // Toggle through: asc -> desc -> null
-      if (sortDirection === "desc") {
-        sortDirection = "asc";
-      } else if (sortDirection === "asc") {
+      if (sortDirection === "asc") {
+        sortDirection = "desc";
+      } else if (sortDirection === "desc") {
         sortDirection = null;
         sortKey = null;
       }
     } else {
       sortKey = key;
-      sortDirection = "desc";
+      sortDirection = "asc";
     }
 
     updateURL();
@@ -76,6 +76,10 @@
         case "price":
           aVal = a.price;
           bVal = b.price;
+          break;
+        case "score":
+          aVal = a.score;
+          bVal = b.score;
           break;
       }
 
@@ -141,10 +145,17 @@
         </th>
         <th
           scope="col"
-          class="cursor-pointer px-4 py-3 select-none hover:text-gray-200"
+          class="cursor-pointer py-3 pl-4 select-none hover:text-gray-200"
           onclick={() => handleSort("price")}
         >
           Avg Price <span class="ml-1">{getSortIcon("price")}</span>
+        </th>
+        <th
+          scope="col"
+          class="cursor-pointer px-4 py-3 select-none hover:text-gray-200"
+          onclick={() => handleSort("score")}
+        >
+          Efficiency Score <span class="ml-1">{getSortIcon("score")}</span>
         </th>
       </tr>
     </thead>
@@ -153,7 +164,7 @@
         <tr class="border-b border-gray-700 bg-gray-800 transition-all hover:bg-gray-700">
           <td class="py-4 pl-4 font-medium whitespace-nowrap text-gray-100">
             <a
-              href={`https://warframe.market/items/${item.name}?type=sell`}
+              href={`https://warframe.market/items/${item.slug}?type=sell`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -164,6 +175,7 @@
           <td class="py-4 pl-4">{item.standing}</td>
           <td class="py-4 pl-4">{item.volume.toFixed(2)}</td>
           <td class="px-4 py-4">{item.price.toFixed(2)}</td>
+          <td class="px-4 py-4">{item.score.toFixed(2)}</td>
         </tr>
       {/each}
     </tbody>

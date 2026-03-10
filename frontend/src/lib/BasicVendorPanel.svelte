@@ -13,7 +13,7 @@
   </a>
   <div class="p-6">
     <a
-      href={`https://warframe.market/items/${vendor.mostProfitable.name}?type=sell`}
+      href={`https://warframe.market/items/${vendor.mostProfitable.slug}?type=sell`}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -26,7 +26,7 @@
     </a>
 
     <a
-      href={`https://warframe.market/items/${vendor.mostVolume.name}?type=sell`}
+      href={`https://warframe.market/items/${vendor.mostVolume.slug}?type=sell`}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -37,7 +37,7 @@
     </a>
 
     <a
-      href={`https://warframe.market/items/${vendor.mostEfficient.name}?type=sell`}
+      href={`https://warframe.market/items/${vendor.mostEfficient.slug}?type=sell`}
       target="_blank"
       rel="noopener noreferrer"
     >

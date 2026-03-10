@@ -18,7 +18,7 @@ var Version = "dev"
 
 func main() {
 	log.Printf("WFM PlatEfficiency [%s]", Version)
-	calculator := wfmplatefficiency.NewScraper()
+	calculator := wfmplatefficiency.NewCalculator()
 	if err := calculator.LoadVendors(); err != nil {
 		log.Fatalf("Failed to load vendors: %v", err)
 	}
