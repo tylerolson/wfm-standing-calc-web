@@ -1,6 +1,9 @@
 <script lang="ts">
-  import type { BasicVendor } from "$lib/types";
+  import type { components } from "$lib/api";
   import VendorIcon from "$lib/VendorIcon.svelte";
+
+  type BasicVendor = components["schemas"]["BasicVendor"];
+
   let { vendor }: { vendor: BasicVendor } = $props();
 </script>
 

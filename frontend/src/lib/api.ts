@@ -47,7 +47,8 @@ export interface components {
             mostProfitable: components["schemas"]["Item"];
             mostVolume: components["schemas"]["Item"];
             name: string;
-            slug: string;
+            /** @enum {string} */
+            slug: "arbiters_of_hexis" | "cephalon_suda" | "new_loka" | "red_veil" | "steel_meridian" | "the_perrin_sequence";
         };
         BasicVendorsResponseBody: {
             /**
@@ -117,15 +118,16 @@ export interface components {
             slug: string;
             /** Format: int64 */
             standing: number;
-            /** Format: int64 */
-            type: number;
+            /** @enum {string} */
+            type: "Mod" | "ArchPart" | "Weapon";
             /** Format: double */
             volume: number;
         };
         Vendor: {
             items: components["schemas"]["Item"][] | null;
             name: string;
-            slug: string;
+            /** @enum {string} */
+            slug: "arbiters_of_hexis" | "cephalon_suda" | "new_loka" | "red_veil" | "steel_meridian" | "the_perrin_sequence";
         };
         VendorsResponseBody: {
             /**
@@ -182,7 +184,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                slug: string;
+                slug: "arbiters_of_hexis" | "cephalon_suda" | "new_loka" | "red_veil" | "steel_meridian" | "the_perrin_sequence";
             };
             cookie?: never;
         };

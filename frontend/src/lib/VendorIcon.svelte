@@ -1,5 +1,9 @@
 <script lang="ts">
-  import type { BasicVendor, Vendor, VendorSlug } from "$lib/types";
+  import type { components } from "$lib/api";
+
+  type BasicVendor = components["schemas"]["BasicVendor"];
+  type Vendor = components["schemas"]["Vendor"];
+  type VendorSlug = BasicVendor["slug"];
 
   let { vendor }: { vendor: Vendor | BasicVendor } = $props();
 

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import type { Vendor } from "$lib/types";
-  import { ItemType } from "$lib/types";
+  import type { components } from "$lib/api";
   import VendorIcon from "$lib/VendorIcon.svelte";
+
+  type Vendor = components["schemas"]["Vendor"];
 
   let { vendor, filterText }: { vendor: Vendor; filterText: string } = $props();
   type SortKey = "name" | "type" | "standing" | "volume" | "price" | "score";
@@ -62,8 +63,8 @@
           bVal = b.name.toLowerCase();
           break;
         case "type":
-          aVal = ItemType[a.type];
-          bVal = ItemType[b.type];
+          aVal = a.type;
+          bVal = b.type;
           break;
         case "standing":
           aVal = a.standing;
@@ -162,7 +163,7 @@
               {item.name}
             </a>
           </td>
-          <td class="py-4 pl-4">{ItemType[item.type]}</td>
+          <td class="py-4 pl-4">{item.type}</td>
           <td class="py-4 pl-4">{item.standing}</td>
           <td class="py-4 pl-4">{item.volume.toFixed(2)}</td>
           <td class="px-4 py-4">{item.price.toFixed(2)}</td>

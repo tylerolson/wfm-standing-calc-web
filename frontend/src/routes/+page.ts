@@ -1,5 +1,7 @@
-import type { BasicVendorsResponse } from "$lib/types";
+import type { components } from "$lib/api";
 import type { PageLoad } from "./$types";
+
+type BasicVendorsResponse = components["schemas"]["BasicVendorsResponseBody"];
 
 export const load: PageLoad = async ({ fetch }) => {
   const response = await fetch("/api/vendors");
