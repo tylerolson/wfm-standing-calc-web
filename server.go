@@ -79,9 +79,9 @@ func (s *Server) updateAllVendors(ctx context.Context) error {
 	vendors := s.calculator.GetVendors()
 
 	startTime := time.Now()
-	log.Printf("Starting vendor updates at")
+	log.Printf("Starting vendor updates at %v", startTime)
 
-	for i, vendor := range s.calculator.GetVendors() {
+	for i, vendor := range vendors {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()

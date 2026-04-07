@@ -58,8 +58,8 @@ func (s *Server) getVendorsOverview(_ context.Context, _ *struct{}) (*BasicVendo
 
 	// maybe send date by unix?
 	vendorResponse := &BasicVendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.updatedAt
-	vendorResponse.Body.Updating = s.updating
+	vendorResponse.Body.UpdatedAt = s.getUpdatedAt()
+	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendors = basicVendors
 
 	return vendorResponse, nil
@@ -72,8 +72,8 @@ func (s *Server) getVendor(_ context.Context, input *GetVendorRequest) (*Vendors
 	}
 
 	vendorResponse := &VendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.updatedAt
-	vendorResponse.Body.Updating = s.updating
+	vendorResponse.Body.UpdatedAt = s.getUpdatedAt()
+	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendor = *vendor
 
 	return vendorResponse, nil
