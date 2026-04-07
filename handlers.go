@@ -16,9 +16,9 @@ type BasicVendor struct {
 
 type BasicVendorsResponse struct {
 	Body struct {
-		UpdatedAt int64         `json:"updatedAt"`
-		Updating  bool          `json:"updating"`
-		Vendors   []BasicVendor `json:"vendors"`
+		UpdatedAtMs int64         `json:"updatedAtMs"`
+		Updating    bool          `json:"updating"`
+		Vendors     []BasicVendor `json:"vendors"`
 	}
 }
 
@@ -28,9 +28,9 @@ type GetVendorRequest struct {
 
 type VendorsResponse struct {
 	Body struct {
-		UpdatedAt int64  `json:"updatedAt"`
-		Updating  bool   `json:"updating"`
-		Vendor    Vendor `json:"vendor"`
+		UpdatedAtMs int64  `json:"updatedAtMs"`
+		Updating    bool   `json:"updating"`
+		Vendor      Vendor `json:"vendor"`
 	}
 }
 
@@ -61,7 +61,7 @@ func (s *Server) getVendorsOverview(_ context.Context, _ *struct{}) (*BasicVendo
 	}
 
 	vendorResponse := &BasicVendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.getUpdatedAt().Unix()
+	vendorResponse.Body.UpdatedAtMs = s.getUpdatedAt().UnixMilli()
 	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendors = basicVendors
 
@@ -75,7 +75,7 @@ func (s *Server) getVendor(_ context.Context, input *GetVendorRequest) (*Vendors
 	}
 
 	vendorResponse := &VendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.getUpdatedAt().Unix()
+	vendorResponse.Body.UpdatedAtMs = s.getUpdatedAt().UnixMilli()
 	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendor = VendorFromLib(*vendor)
 

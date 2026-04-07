@@ -58,7 +58,7 @@ export interface components {
              */
             readonly $schema?: string;
             /** Format: int64 */
-            updatedAt: number;
+            updatedAtMs: number;
             updating: boolean;
             vendors: components["schemas"]["BasicVendor"][] | null;
         };
@@ -137,7 +137,7 @@ export interface components {
              */
             readonly $schema?: string;
             /** Format: int64 */
-            updatedAt: number;
+            updatedAtMs: number;
             updating: boolean;
             vendor: components["schemas"]["Vendor"];
         };

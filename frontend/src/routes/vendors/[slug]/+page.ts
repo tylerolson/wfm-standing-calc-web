@@ -22,7 +22,7 @@ export const load: PageLoad = async ({ fetch, params }) => {
 
   return {
     vendor: data.vendor,
-    updatedAt: new Date(data.updatedAt),
+    updatedAt: new Date(data.updatedAtMs),
     updating: data.updating,
     error: null,
   };

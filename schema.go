@@ -25,6 +25,20 @@ func (VendorSlug) Schema(r huma.Registry) *huma.Schema {
 // ItemType wraps the library ItemType to provide Huma OpenAPI schema
 type ItemType wfmplatefficiency.ItemType
 
+func (t ItemType) MarshalJSON() ([]byte, error) {
+	return wfmplatefficiency.ItemType(t).MarshalJSON()
+}
+
+func (t *ItemType) UnmarshalJSON(data []byte) error {
+	var libType wfmplatefficiency.ItemType
+	if err := (&libType).UnmarshalJSON(data); err != nil {
+		return err
+	}
+
+	*t = ItemType(libType)
+	return nil
+}
+
 func (ItemType) Schema(r huma.Registry) *huma.Schema {
 	return &huma.Schema{
 		Type: huma.TypeString,
