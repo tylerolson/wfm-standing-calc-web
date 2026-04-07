@@ -46,7 +46,7 @@
   }
 
   let sortedItems = $derived.by(() => {
-    let filtered = vendor.items.filter(
+    let filtered = (vendor.items ?? []).filter(
       (item) => item.name.toLowerCase().includes(filterText.toLowerCase()) || filterText === "",
     );
 

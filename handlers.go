@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"time"
 
 	wfmplatefficiency "github.com/tylerolson/wfm-plat-efficiency"
 )
@@ -15,22 +14,21 @@ type BasicVendor struct {
 	MostEfficient  wfmplatefficiency.Item `json:"mostEfficient"`
 }
 
-// a basic overview of the vendors
 type BasicVendorsResponse struct {
 	Body struct {
-		UpdatedAt time.Time     `json:"updatedAt"`
+		UpdatedAt int64         `json:"updatedAt"`
 		Updating  bool          `json:"updating"`
 		Vendors   []BasicVendor `json:"vendors"`
 	}
 }
 
 type GetVendorRequest struct {
-	Slog string `path:"slog"`
+	Slug string `path:"slug"`
 }
 
 type VendorsResponse struct {
 	Body struct {
-		UpdatedAt time.Time                `json:"updatedAt"`
+		UpdatedAt int64                    `json:"updatedAt"`
 		Updating  bool                     `json:"updating"`
 		Vendor    wfmplatefficiency.Vendor `json:"vendor"`
 	}
@@ -39,26 +37,31 @@ type VendorsResponse struct {
 func (s *Server) getVendorsOverview(_ context.Context, _ *struct{}) (*BasicVendorsResponse, error) {
 	basicVendors := make([]BasicVendor, 0)
 
-	// TODO FIX
-	// most efficient is nil here when every vendors isnt fetched already
 	for _, vendor := range s.calculator.GetVendors() {
-		// return most profitable if there is a nil value, will fix later
-		mostEfficient := vendor.MostEfficient()
-		if mostEfficient == nil {
-			mostEfficient = vendor.MostProfit()
+		basicVendor := BasicVendor{
+			Slug: vendor.Slug,
+			Name: vendor.Name,
 		}
-		basicVendors = append(basicVendors, BasicVendor{
-			Slug:           vendor.Slug,
-			Name:           vendor.Name,
-			MostProfitable: *vendor.MostProfit(),
-			MostVolume:     *vendor.MostVolume(),
-			MostEfficient:  *mostEfficient,
-		})
+
+		if mostProfit := vendor.MostProfit(); mostProfit != nil {
+			basicVendor.MostProfitable = *mostProfit
+		}
+
+		if mostVolume := vendor.MostVolume(); mostVolume != nil {
+			basicVendor.MostVolume = *mostVolume
+		}
+
+		if mostEfficient := vendor.MostEfficient(); mostEfficient != nil {
+			basicVendor.MostEfficient = *mostEfficient
+		} else {
+			basicVendor.MostEfficient = basicVendor.MostProfitable
+		}
+
+		basicVendors = append(basicVendors, basicVendor)
 	}
 
-	// maybe send date by unix?
 	vendorResponse := &BasicVendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.getUpdatedAt()
+	vendorResponse.Body.UpdatedAt = s.getUpdatedAt().Unix()
 	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendors = basicVendors
 
@@ -66,13 +69,13 @@ func (s *Server) getVendorsOverview(_ context.Context, _ *struct{}) (*BasicVendo
 }
 
 func (s *Server) getVendor(_ context.Context, input *GetVendorRequest) (*VendorsResponse, error) {
-	vendor, err := s.calculator.GetVendor(input.Slog)
+	vendor, err := s.calculator.GetVendor(input.Slug)
 	if err != nil {
 		return nil, err
 	}
 
 	vendorResponse := &VendorsResponse{}
-	vendorResponse.Body.UpdatedAt = s.getUpdatedAt()
+	vendorResponse.Body.UpdatedAt = s.getUpdatedAt().Unix()
 	vendorResponse.Body.Updating = s.isUpdating()
 	vendorResponse.Body.Vendor = *vendor
 

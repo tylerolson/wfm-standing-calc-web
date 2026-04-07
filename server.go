@@ -39,7 +39,7 @@ func NewServer(calculator *wfmplatefficiency.Calculator, version string) *Server
 	config.SchemasPath = "/api/schemas"
 	server.humaAPI = humago.New(server.serveMux, config)
 	huma.Get(server.humaAPI, "/api/vendors", server.getVendorsOverview)
-	huma.Get(server.humaAPI, "/api/vendors/{slog}", server.getVendor)
+	huma.Get(server.humaAPI, "/api/vendors/{slug}", server.getVendor)
 
 	return server
 }
